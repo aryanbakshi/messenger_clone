@@ -73,11 +73,10 @@ const AuthForm = () => {
                     onSubmit={handleSubmit(onSubmit)} //getting data from React hook form
                 >
                     <Input
-
+                        id="email"
                         label="Email"
-
+                        register={register}
                     />
-
 
                 </form>
 
