@@ -11,7 +11,7 @@ const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
     onCLick
 }) => {
     return (
-        <Button
+        <button
             type="button"
             onClick={onCLick}
             className="
@@ -33,7 +33,7 @@ const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
         >
             <Icon/>
 
-        </Button>
+        </button>
     );
 }
 

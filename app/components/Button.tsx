@@ -22,7 +22,7 @@ const Button : React.FC<ButtonProps> = ({
     disabled
 }) => {
     return (
-       <Button
+       <button
            onClick={onClick}
            type={type}
            disabled={disabled}
@@ -46,7 +46,7 @@ const Button : React.FC<ButtonProps> = ({
                )}
        >
            {children}
-       </Button>
+       </button>
     );
 }
 

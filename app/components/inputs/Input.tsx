@@ -42,12 +42,12 @@ const Input: React.FC<InputProps> = ({
                 {label}
             </label>
             <div className="mt-2">
-                <Input
+                <input
                     id={id}
                     type={type}
                     autoComplete={id}
                     disabled={disabled}
-                    { ... register(id, { required })}
+                    {...register(id, { required })}
                     className={clsx(`
                     form-input
                     block
@@ -69,7 +69,7 @@ const Input: React.FC<InputProps> = ({
                         errors[id] && "focus:ring-rose-500",
                         disabled && "opacity-50 cursor-default"
                         )}
-                />
+               />
             </div>
         </div>
     );

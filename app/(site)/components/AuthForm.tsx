@@ -21,11 +21,12 @@ const AuthForm = () => {
         }
     },[variant]);
 
+    // const { register, handleSubmit,formState:{errors} } = useForm();
     const {
         register,
         handleSubmit,
         formState: {
-            errors
+            errors,
         }
     } = useForm<FieldValues>({
         defaultValues: {
@@ -33,7 +34,7 @@ const AuthForm = () => {
             email: '',
             password: ''
         }
-    })
+    });
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true);
@@ -71,30 +72,32 @@ const AuthForm = () => {
                 sm:px-10
                 "
             >
+
                 <form
                     className="space-y-6"
                     onSubmit={handleSubmit(onSubmit)} //getting data from React hook form
                 >
                     {variant === 'REGISTER' && (
                         <Input
-                            id="name"
                             label="Name"
+                            id="name"
+                            required={true}
                             register={register}
                             errors={errors}
                             disabled={isLoading}
                         />
                     )}
                     <Input
-                        id="email"
                         label="Email address"
+                        id="email"
                         type="email"
                         register={register}
                         errors={errors}
                         disabled={isLoading}
                     />
                     <Input
-                        id="password"
                         label="Password"
+                        id="password"
                         type="password"
                         register={register}
                         errors={errors}
@@ -111,6 +114,7 @@ const AuthForm = () => {
                     </div>
 
                 </form>
+
                 <div className="mt-6">
                     <div className="relative">
                         <div
