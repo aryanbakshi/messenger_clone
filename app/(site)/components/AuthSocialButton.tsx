@@ -1,6 +1,6 @@
 import { IconType } from 'react-icons';
 import React from "react";
-import Button from "@/app/components/Button";
+
 
 interface AuthSocialButtonProps {
     icon: IconType,
@@ -8,12 +8,12 @@ interface AuthSocialButtonProps {
 }
 const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
     icon: Icon,
-    onCLick
+    onClick,
 }) => {
     return (
         <button
             type="button"
-            onClick={onCLick}
+            onClick={onClick}
             className="
                 inline-flex
                 w-full

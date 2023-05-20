@@ -4,8 +4,11 @@ import {useCallback, useState} from "react";
 import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
 import Input from "@/app/components/inputs/Input";
 import Button from "@/app/components/Button";
-import AuthSocialButton from "@/app/(site)/components/AuthSocialButton";
+import AuthSocialButton from "./AuthSocialButton";
 import {BsGithub, BsGoogle} from "react-icons/bs";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { signIn } from "next-auth/react";
 
 type Variant = 'LOGIN' | 'REGISTER';
 
@@ -21,7 +24,7 @@ const AuthForm = () => {
         }
     },[variant]);
 
-    // const { register, handleSubmit,formState:{errors} } = useForm();
+
     const {
         register,
         handleSubmit,
@@ -40,16 +43,45 @@ const AuthForm = () => {
         setIsLoading(true);
 
         if (variant === 'REGISTER') {
+            axios.post('/api/register', data)
+            .catch(() => toast.error('Something went wrong!'))
+            .finally(() => setIsLoading(false))
             // Axios Register
         }
 
         if (variant === 'LOGIN') {
+            signIn('credentials', {
+                ...data,
+                redirect: false
+            })
+            .then((callback) => {
+                if (callback?.error) {
+                    toast.error('Invalid credentials');
+                }
+
+                if (callback?.ok && !callback?.error) {
+                    toast.success('Logged in!')
+                }
+                })
+            .finally(() => setIsLoading(false));
             //NextAuth SignIn
         }
     }
 
-    const SocialAction = (action: string) => {
+    const socialAction = (action: string) => {
         setIsLoading(true);
+
+        signIn(action, {redirect: false })
+        .then((callback) => {
+            if (callback?.error) {
+                toast.error('Invalid Credentials');
+            }
+
+            if (callback?.ok && !callback?.error) {
+                toast.success('Logged in!')
+            }
+        })
+        .finally(() => setIsLoading(false));
         //NextAuth Social Sign In
     }
 
