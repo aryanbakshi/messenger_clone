@@ -1,5 +1,3 @@
-"use client";
-
 import { User } from "@prisma/client";
 import React, {useCallback, useState} from "react";
 import {useRouter} from "next/navigation";

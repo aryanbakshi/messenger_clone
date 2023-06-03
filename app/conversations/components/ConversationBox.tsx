@@ -6,63 +6,63 @@ import { Conversation, Message, User } from "@prisma/client";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import clsx from "clsx";
-import {FullConversationType} from "@/app/types";
-import useOtherUser from "@/app/hooks/useOtherUser";
+
 import Avatar from "@/app/components/Avatar";
+import useOtherUser from "@/app/hooks/useOtherUser";
+import { FullConversationType } from "@/app/types";
 
 interface ConversationBoxProps {
-    data: FullConversationType,
-    selected?: boolean;
+  data: FullConversationType,
+  selected?: boolean;
 }
-const ConversationBox: React.FC<ConversationBoxProps> = ({
-    data,
-    selected
+
+const ConversationBox: React.FC<ConversationBoxProps> = ({ 
+  data, 
+  selected 
 }) => {
-    const otherUser = useOtherUser(data);
-    const session = useSession();
-    const router = useRouter();
+  const otherUser = useOtherUser(data);
+  const session = useSession();
+  const router = useRouter();
 
-    const handleClick = useCallback(() => {
-        router.push(`/conversation/${data.id}`);
-    }, [data.id, router]);
+  const handleClick = useCallback(() => {
+    router.push(`/conversations/${data.id}`);
+  }, [data, router]);
 
-    const lastMessage = useMemo(() => {
-        const messages = data.messages || [];
+  const lastMessage = useMemo(() => {
+    const messages = data.messages || [];
 
-        return messages[messages.length -1];
-    }, [data.messages]);
+    return messages[messages.length - 1];
+  }, [data.messages]);
 
-    const userEmail = useMemo(() => {
-        return session.data?.user?.email;
-    }, [session.data?.user?.email]);
+  const userEmail = useMemo(() => session.data?.user?.email,
+  [session.data?.user?.email]);
+  
+  const hasSeen = useMemo(() => {
+    if (!lastMessage) {
+      return false;
+    }
 
-    const hasSeen = useMemo(() => {
-        if (!lastMessage) {
-            return false;
-        }
+    const seenArray = lastMessage.seen || [];
 
-        const seenArray = lastMessage.seen || [];
+    if (!userEmail) {
+      return false;
+    }
 
-        if (!userEmail) {
-            return false;
-        }
+    return seenArray
+      .filter((user) => user.email === userEmail).length !== 0;
+  }, [userEmail, lastMessage]);
 
-        return seenArray
-        .filter((user) => user.email === userEmail).length != 0;
+  const lastMessageText = useMemo(() => {
+    if (lastMessage?.image) {
+      return 'Sent an image';
+    }
 
-    }, [userEmail, lastMessage]);
+    if (lastMessage?.body) {
+      return lastMessage?.body
+    }
 
-    const lastMessageText = useMemo(() => {
-        if (lastMessage?.image) {
-            return 'Sent an image';
-        }
-
-        if (lastMessage?.body) {
-            return lastMessage.body;
-        }
-
-        return "Started a conversation";
-    }, [lastMessage]);
+    return 'Started a conversation';
+  }, [lastMessage]);
 
     return (
         <div
