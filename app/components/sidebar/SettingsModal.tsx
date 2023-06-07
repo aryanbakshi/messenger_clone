@@ -9,6 +9,8 @@ import {toast} from "react-hot-toast";
 import Modal from '../Modal';
 import Input from "../inputs/Input";
 import Image from "next/image";
+import {CldUploadButton} from "next-cloudinary";
+import Button from "../Button";
 
 interface SettingsModalProps {
     isOpen?: boolean;
@@ -118,9 +120,45 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                                         src={image || currentUser?.image || '/images/placeholder.jpg'}
                                         alt="Avatar"
                                     />
+                                    <CldUploadButton
+                                        options={{ maxFiles: 1 }}
+                                        onUpload={handleUpload}
+                                        uploadPreset="xpehjh3y"
+                                    >
+                                        <Button
+                                            disabled={isLoading}
+                                            secondary
+                                            type="button"
+                                        >
+                                            Change
+                                        </Button>
+                                    </CldUploadButton>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div
+                        className="
+                            mt-6
+                            flex
+                            items-center
+                            justify-end
+                            gap-x-6
+                        "
+                    >
+                        <Button
+                            disabled={isLoading}
+                            secondary
+                            onClick={onClose}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            disabled={isLoading}
+                            type="submit"
+                        >
+                            Save
+                        </Button>
                     </div>
                 </div>
             </form>
