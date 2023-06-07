@@ -1,12 +1,13 @@
 "use client";
 
 import {Conversation, User} from "@prisma/client";
-import React, {Fragment, useMemo} from "react";
+import React, {Fragment, useMemo, useState} from "react";
 import useOtherUser from "@/app/hooks/useOtherUser";
 import {format} from "date-fns";
 import {IoClose, IoTrash} from "react-icons/io5";
 import {Dialog, Transition} from "@headlessui/react";
 import Avatar from "@/app/components/Avatar";
+import Modal from "@/app/components/Modal";
 
 interface ProfileDrawerProps {
     isOpen: boolean;
@@ -21,6 +22,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
     data
 }) => {
     const otherUser = useOtherUser(data);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const joinedDate = useMemo(() => {
         return format(new Date(otherUser.createdAt), 'PP');
@@ -38,6 +40,11 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
     }, [data]);
 
     return (
+        <>
+            <Modal
+                isOpen
+                onClose={() => {}}
+            />
         <Transition.Root show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-50" onClose={onClose}>
                 <Transition.Child
@@ -284,6 +291,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                 </div>
             </Dialog>
         </Transition.Root>
+        </>
     );
 }
 
